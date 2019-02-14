@@ -9,10 +9,11 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import { connect } from 'react-redux';
 
 import { MonoText } from '../components/StyledText';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -25,8 +26,8 @@ export default class HomeScreen extends React.Component {
             <Image
               source={
                 __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
+                  ? require('../../assets/images/robot-dev.png')
+                  : require('../../assets/images/robot-prod.png')
               }
               style={styles.welcomeImage}
             />
@@ -97,6 +98,10 @@ export default class HomeScreen extends React.Component {
     );
   };
 }
+
+export default connect(state => ({
+
+}))(HomeScreen)
 
 const styles = StyleSheet.create({
   container: {
