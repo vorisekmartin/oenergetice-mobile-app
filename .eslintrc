@@ -1,0 +1,204 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["react", "flowtype", "lodash-fp", "jest", "prettier", "no-http-protocol"],
+  "extends": [
+    "airbnb",
+    "plugin:lodash-fp/recommended",
+    "plugin:flowtype/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "env": {
+    "node": true,
+    "browser": true,
+    "jest": true
+  },
+  "settings": {
+    "import/resolver": "reactnative",
+  },
+  "rules": {
+    // Broken rules
+    // ---
+    "jsx-a11y/href-no-hash": "off",
+
+    // Flow
+    // ---
+    "flowtype/no-weak-types": [
+      "error",
+      {
+        "any": false,
+        "Object": true,
+        "Function": true
+      }
+    ], // no Function, Object
+    "flowtype/require-valid-file-annotation": ["warn", "always"],
+
+    // Prettier
+    // ---
+    "prettier/prettier": "error",
+
+    // 10/2017 Update
+    // ---
+    "radix": "warn",
+    "class-methods-use-this": "warn",
+    "prefer-const": "warn",
+    "no-restricted-properties": "warn",
+    "one-var": "warn",
+    "no-plusplus": "warn",
+    "no-template-curly-in-string": "warn",
+    "no-bitwise": "warn",
+    "no-await-in-loop": "warn",
+    "no-useless-escape": "warn",
+    "no-restricted-syntax": "warn",
+    "no-return-assign": "warn",
+    "no-return-await": "warn",
+    "no-multi-assign": "warn",
+
+    "react/prop-types": "off",
+    "react/no-string-refs": "warn",
+    "react/no-multi-comp": "warn",
+    "react/no-children-prop": "warn",
+    "react/forbid-prop-types": "warn",
+    "react/style-prop-object": "warn",
+    "react/no-array-index-key": "warn",
+    "react/no-unused-prop-types": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/require-default-props": "warn",
+    "react/button-has-type": "warn",
+    "import/first": "warn",
+    "import/extensions": "warn",
+    "import/imports-first": "warn",
+    "import/prefer-default-export": "warn",
+
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/no-autofocus": "warn",
+    "jsx-a11y/iframe-has-title": "warn",
+    "jsx-a11y/no-redundant-roles": "warn",
+    "jsx-a11y/anchor-has-content": "warn",
+    "jsx-a11y/tabindex-no-positive": "warn",
+    "jsx-a11y/role-has-required-aria-props": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+
+    "flowtype/no-types-missing-file-annotation": "warn",
+
+    // don't allow index imports as it imports all the icons (tree shaking doesn't help in this case)
+    "no-restricted-imports": ["error", "react-icons/lib/md"],
+
+    // General import paths
+    // ---
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          { "target": "./app", "from": "./data" },
+          { "target": "./app", "from": "./server" },
+          { "target": "./app", "from": "./src/mocks" },
+          { "target": "./common", "from": "./data" },
+          { "target": "./common", "from": "./server" },
+          { "target": "./common", "from": "./src/mocks" },
+          { "target": "./src", "from": "./data" },
+          { "target": "./src", "from": "./server" },
+          { "target": "./src", "from": "./src/mocks" },
+          { "target": "./server", "from": "./data" },
+          { "target": "./server", "from": "./src/mocks" }
+        ]
+      }
+    ],
+
+    // Kiwi style
+    // ---
+    "quote-props": "off", // used for api inputs
+    "dot-notation": ["off"], // we use bracket notation for external inputs (API, url params, ...)
+    "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
+    "react/jsx-curly-brace-presence": ["error", { "props": "never", "children": "never" }],
+    "new-cap": "off", // Because Immutable.js
+
+    "no-underscore-dangle": "off", // __LOG
+    // Strajk & Michael don't care
+    "jsx-a11y/label-has-for": "off", // we put inputs into labels
+
+    // Jest
+    // ---
+    "jest/no-identical-title": "error",
+
+    // Fix gradually
+    // ---
+    "no-unused-expressions": "warn",
+    "no-prototype-builtins": "warn",
+    "no-unused-vars": "warn",
+    "default-case": "warn",
+    "func-names": "warn",
+    "no-mixed-operators": "warn",
+
+    // Fix automatically someday
+    // ---
+    "import/no-duplicates": "warn",
+    "react/sort-comp": "warn",
+    "react/no-find-dom-node": "warn",
+
+    // Codemod
+    "react/prefer-stateless-function": "warn",
+    "react/prefer-es6-class": "warn",
+    "react/destructuring-assignment": "warn",
+    // Lodash-fp
+    "lodash-fp/consistent-name": ["warn", "fp"],
+    "lodash-fp/consistent-compose": "error",
+    "lodash-fp/no-chain": "warn",
+    "lodash-fp/use-fp": "warn",
+
+    // no http// or https//, use just "//"
+    "no-http-protocol/no-http-protocol": ["error"]
+  },
+  "globals": {
+    "_gaq": false,
+    "google": false,
+    "vex": false,
+    "window": false,
+    "$": false,
+    "Promise": false,
+    "process": false,
+    "__": false,
+
+    // Partners
+    "RISKX": false,
+
+    // Historical
+    "SKYPICKER_CURRENCIES": false,
+    "SKYPICKER_SUPPORT_PHONE": false,
+    "SKYPICKER_LNG": false,
+    "SKYPICKER_CURRENCY": false,
+    "SKYPICKER_COUNTRIES": false,
+    "SKYPICKER_TRANSLATIONS": false,
+    "SKYPICKER_VISITOR_UNIQID": false,
+    "SP_GLOBALS": false,
+    "Skypicker": false,
+
+    // For debugging
+    "reduxStore": false
+  },
+  "overrides": [
+    {
+      "files": ["*.spec.js", "*/mocks/*.js"],
+      "rules": {
+        "import/no-restricted-paths": [
+          "error",
+          {
+            "zones": [
+              { "target": "./app", "from": "./data" },
+              { "target": "./app", "from": "./server" },
+              { "target": "./common", "from": "./data" },
+              { "target": "./common", "from": "./server" },
+              { "target": "./src", "from": "./data" },
+              { "target": "./src", "from": "./server" },
+              { "target": "./server", "from": "./data" }
+            ]
+          }
+        ],
+        "no-http-protocol/no-http-protocol": ["off"]
+      }
+    }
+  ]
+}

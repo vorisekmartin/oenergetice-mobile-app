@@ -1,3 +1,4 @@
+// @flow
 import fp from "lodash/fp"
 
 const DEFAULT_STATE = {
@@ -12,6 +13,6 @@ export const generalReducer = (state = DEFAULT_STATE, action) => {
     case "SET_TOKEN":
       return fp.set("token", action.payload)(state)
     default:
-      return state;
+      return state
   }
 }
