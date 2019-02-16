@@ -8,3 +8,13 @@ export const setPost = payload => ({
   type: "SET_POST",
   payload,
 })
+
+export const setCtkState = payload => ({
+  type: "SET_CTK_STATE",
+  payload,
+})
+
+export const setPostTags = payload => ({
+  type: "SET_POST_TAGS",
+  payload,
+})

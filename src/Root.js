@@ -13,11 +13,12 @@ import TopBar from "./components/TopBar"
 class Root extends React.Component {
   state = {
     isLoadingComplete: false,
-    notification: {},
+    notification: {}, // eslint-disable-line
   }
 
   componentDidMount() {
     const { dispatch } = this.props
+    console.log("componentDidMount")
     dispatch(registerForPushNotificationsAsync())
     dispatch(fetchCTKPosts())
 
@@ -25,11 +26,10 @@ class Root extends React.Component {
   }
 
   _handleNotification = notification => {
-    this.setState({ notification })
+    this.setState({ notification }) // eslint-disable-line
   }
 
   render() {
-    console.log(this.state.notification)
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading

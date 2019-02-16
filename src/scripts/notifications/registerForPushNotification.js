@@ -28,7 +28,8 @@ export const registerForPushNotificationsAsync = () => async dispatch => {
   const PUSH_ENDPOINT = `https://app.oenergetice.cz/oenergetice/users/${token}`
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
-  fetch(PUSH_ENDPOINT, {
+  // eslint-disable-next-line
+  return fetch(PUSH_ENDPOINT, {
     method: "POST",
     headers: {
       Accept: "application/json",
