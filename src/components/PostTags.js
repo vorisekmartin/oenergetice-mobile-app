@@ -12,9 +12,9 @@ import NextButton from "./NextButton"
 import PostListRow from "./PostListRow"
 import { API_ENDPOINTS } from "../constants/constants"
 import ListTagRow from "./ListTagRow"
-import { setPostCategory, setPostTags } from "../actions/ctkActions"
+import { setMainCategory, setPostCategory, setPostTags } from "../actions/ctkActions"
 import { TAXONOMY_TYPE } from "../reducers/ctkConstants"
-import { categoriesSelector } from "../ctkSelectors"
+import { categoriesSelector, mainCategorySelector } from "../ctkSelectors"
 
 const { width } = Dimensions.get("window")
 
@@ -82,13 +82,29 @@ class PostTags extends React.Component {
     }
   }
 
-  handleRemoveTag = tag => {
-    const newTags = fp.difference(this.props.tags)([tag])
-    this.props.dispatch(setPostTags(newTags))
+  handleRemoveTag = taxonomy => {
+    if (this.props.type === TAXONOMY_TYPE.TAG) {
+      const newTags = fp.difference(this.props.tags)([taxonomy])
+      this.props.dispatch(setPostTags(newTags))
+    } else if (this.props.type === TAXONOMY_TYPE.CATEGORY) {
+      const newTags = fp.difference(this.props.categories)([taxonomy])
+      this.props.dispatch(setPostCategory(newTags))
+    }
+  }
+
+  handleLongPress = taxo => {
+    const { dispatch, mainCategory } = this.props
+    if (this.props.type === TAXONOMY_TYPE.CATEGORY && !mainCategory) {
+      dispatch(setMainCategory(taxo))
+    } else if (this.props.type === TAXONOMY_TYPE.CATEGORY && fp.isEqual(taxo)(mainCategory)) {
+      dispatch(setMainCategory(null))
+    } else if (this.props.type === TAXONOMY_TYPE.CATEGORY) {
+      dispatch(setMainCategory(taxo))
+    }
   }
 
   render() {
-    const { title, tags, type, categories } = this.props
+    const { title, tags, type, categories, mainCategory } = this.props
 
     const selectedTaxonomy = type === TAXONOMY_TYPE.TAG ? this.props.tags : this.props.categories
 
@@ -112,7 +128,13 @@ class PostTags extends React.Component {
             <ListView
               dataSource={this.state.ds.cloneWithRows(selectedTaxonomy)}
               renderRow={(row, empty, index) => (
-                <ListTagRow tag={row} handlePress={this.handleRemoveTag} {...row} />
+                <ListTagRow
+                  tag={row}
+                  mainCategory={fp.isEqual(mainCategory)(row)}
+                  handlePress={this.handleRemoveTag}
+                  handleLongPress={this.handleLongPress}
+                  {...row}
+                />
               )}
             />
           )}
@@ -141,4 +163,5 @@ class PostTags extends React.Component {
 export default connect(state => ({
   tags: state.ctk.tags,
   categories: categoriesSelector(state),
+  mainCategory: mainCategorySelector(state),
 }))(PostTags)

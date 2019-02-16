@@ -23,3 +23,8 @@ export const setPostCategory = payload => ({
   type: "SET_POST_CATEGORIES",
   payload,
 })
+
+export const setMainCategory = payload => ({
+  type: "SET_MAIN_CATEGORY",
+  payload,
+})

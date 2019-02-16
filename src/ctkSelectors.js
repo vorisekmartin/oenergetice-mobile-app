@@ -6,6 +6,7 @@ import { CTK_STATES } from "./reducers/ctkConstants"
 export const ctkStateSelector = state => state.ctk.state
 export const ctkPostSelector = state => state.ctk.post
 export const categoriesSelector = state => state.ctk.categories
+export const mainCategorySelector = state => state.ctk.mainCategory
 
 export const nextStateSelector = createSelector(
   ctkStateSelector,

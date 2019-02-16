@@ -2,6 +2,7 @@
 import React from "react"
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
+import MainCategoryLabel from "./MainCategoryLabel"
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,6 +11,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     padding: 6,
+  },
+  labelContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   scrollView: {
     color: "black",
@@ -34,16 +39,31 @@ class ListTagRow extends React.Component {
   }
 
   render() {
-    const { highlight, name, suggestion, handlePress, tag } = this.props
+    const {
+      highlight,
+      name,
+      mainCategory,
+      suggestion,
+      handlePress,
+      tag,
+      handleLongPress,
+    } = this.props
 
     return (
-      <TouchableOpacity style={styles.nextButton} onPress={() => handlePress(tag)}>
+      <TouchableOpacity
+        style={styles.nextButton}
+        onPress={() => handlePress(tag)}
+        onLongPress={() => handleLongPress && handleLongPress(tag)}
+      >
         <View style={styles.container}>
           {highlight ? this.renderText() : <Text>{name}</Text>}
           {suggestion ? (
             <Icon name="plus-circle" color="green" size={22} />
           ) : (
-            <Icon color="red" name="minus-circle" size={22} />
+            <View style={styles.labelContainer}>
+              {mainCategory && <MainCategoryLabel />}
+              <Icon color="red" name="minus-circle" size={22} />
+            </View>
           )}
         </View>
       </TouchableOpacity>
