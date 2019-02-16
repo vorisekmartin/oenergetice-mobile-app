@@ -37,7 +37,6 @@ const PostDetails = ({ title, text, handleSelectTags }) => (
       originWhitelist={["*"]}
       source={{ html: `${additionalStyles}${text}` }}
     />
-    <NextButton handlePressNext={handleSelectTags} />
   </View>
 )
 

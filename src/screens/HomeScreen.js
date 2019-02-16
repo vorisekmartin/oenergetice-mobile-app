@@ -7,7 +7,7 @@ import TopBar from "../components/TopBar"
 
 import { styles } from "../styles/HomeScreen.styles"
 import { setCtkState, setPost } from "../actions/ctkActions"
-import { CTK_STATES } from "../reducers/ctkConstants"
+import { CTK_STATES, TAXONOMY_TYPE } from "../reducers/ctkConstants"
 import PostList from "./CTK/PostList"
 import PostDetails from "../components/PostDetails"
 import PostTags from "../components/PostTags"
@@ -58,8 +58,10 @@ class HomeScreen extends React.Component {
         {this.shouldRenderSinglePost() && (
           <PostDetails {...post} handleSelectTags={this.handleSelectTags} />
         )}
-        {this.shouldRenderTags() && <PostTags title={post.title} />}
-        {this.shouldRenderCategory() && <PostTags title={post.title} />}
+        {this.shouldRenderCategory() && (
+          <PostTags type={TAXONOMY_TYPE.CATEGORY} title={post.title} />
+        )}
+        {this.shouldRenderTags() && <PostTags type={TAXONOMY_TYPE.TAG} title={post.title} />}
         {this.shouldRenderFeaturedImage() && <PostTags title={post.title} />}
         {this.shouldRenderImage() && <PostTags title={post.title} />}
       </View>

@@ -2,10 +2,11 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
 import { connect } from "react-redux"
-
+import fp from "lodash/fp"
 import { MonoText } from "./StyledText"
 import NextButton from "./NextButton"
-import { nextStateSelector } from "../ctkSelectors"
+import { nextStateSelector, ctkStateSelector } from "../ctkSelectors"
+import { setCtkState } from "../actions/ctkActions"
 
 const styles = StyleSheet.create({
   container: {
@@ -24,19 +25,18 @@ const styles = StyleSheet.create({
   },
 })
 
-const TopBar = ({ dispatch }) => {
-  const nextState = ""
+const TopBar = ({ dispatch, nextState }) => {
   return (
     <View style={styles.container}>
       <MonoText style={styles.title}>oEnergetice.cz</MonoText>
       <NextButton
         style={{ height: 32, width: 100, padding: 0 }}
-        handlePressNext={() => dispatch()}
+        handlePressNext={() => dispatch(setCtkState(nextState))}
       />
     </View>
   )
 }
 export default connect(state => ({
-  state: state.ctk.state,
+  state: ctkStateSelector(state),
   nextState: nextStateSelector(state),
 }))(TopBar)

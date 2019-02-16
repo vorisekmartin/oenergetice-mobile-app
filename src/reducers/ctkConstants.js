@@ -25,3 +25,8 @@ export const CTK_STATES = {
     index: 5,
   },
 }
+
+export const TAXONOMY_TYPE = {
+  TAG: "post_tag",
+  CATEGORY: "category",
+}

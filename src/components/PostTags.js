@@ -12,7 +12,9 @@ import NextButton from "./NextButton"
 import PostListRow from "./PostListRow"
 import { API_ENDPOINTS } from "../constants/constants"
 import ListTagRow from "./ListTagRow"
-import { setPostTags } from "../actions/ctkActions"
+import { setPostCategory, setPostTags } from "../actions/ctkActions"
+import { TAXONOMY_TYPE } from "../reducers/ctkConstants"
+import { categoriesSelector } from "../ctkSelectors"
 
 const { width } = Dimensions.get("window")
 
@@ -48,10 +50,13 @@ class PostTags extends React.Component {
       text: "",
       suggestedTags: [],
     }
+    if (this.props.type === TAXONOMY_TYPE.CATEGORY) {
+      this.fetchTags("")
+    }
   }
 
   fetchTags = text => {
-    const params = { query: text }
+    const params = { query: text, type: this.props.type }
     const url = `${API_ENDPOINTS.POST_TAGS}?${queryString.stringify(params)}`
     const that = this
     axios.get(url).then(resp => {
@@ -61,14 +66,20 @@ class PostTags extends React.Component {
 
   handleChangeInputText = text => {
     this.setState({ text })
-    if (text.length > 2) {
+    if (text.length > 2 || this.props.type === TAXONOMY_TYPE.CATEGORY) {
       this.fetchTags(text)
     }
   }
 
-  handleSelectTag = tag => {
-    const newTags = [...this.props.tags, tag]
-    this.props.dispatch(setPostTags(newTags))
+  handleSelectTag = taxonomy => {
+    if (this.props.type === TAXONOMY_TYPE.TAG) {
+      const newTags = [...this.props.tags, taxonomy]
+      this.props.dispatch(setPostTags(newTags))
+    } else if (this.props.type === TAXONOMY_TYPE.CATEGORY) {
+      const newTags = [...this.props.categories, taxonomy]
+      console.log(newTags)
+      this.props.dispatch(setPostCategory(newTags))
+    }
   }
 
   handleRemoveTag = tag => {
@@ -77,13 +88,19 @@ class PostTags extends React.Component {
   }
 
   render() {
-    const { title, tags } = this.props
+    const { title, tags, type, categories } = this.props
 
-    const filteredTags = fp.difference(this.state.suggestedTags)(tags)
+    const selectedTaxonomy = type === TAXONOMY_TYPE.TAG ? this.props.tags : this.props.categories
+
+    const filteredTags =
+      type === TAXONOMY_TYPE.TAG
+        ? fp.difference(this.state.suggestedTags)(tags)
+        : fp.difference(this.state.suggestedTags)(categories)
 
     return (
       <View style={styles.container}>
         <Heading title={title} />
+        <Text>{type === TAXONOMY_TYPE.TAG ? "Štítky" : "Kategorie"}</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={text => this.handleChangeInputText(text)}
@@ -91,9 +108,9 @@ class PostTags extends React.Component {
         />
         <ScrollView>
           <MonoText>Vybráno:</MonoText>
-          {this.props.tags.length > 0 && (
+          {selectedTaxonomy.length > 0 && (
             <ListView
-              dataSource={this.state.ds.cloneWithRows(this.props.tags)}
+              dataSource={this.state.ds.cloneWithRows(selectedTaxonomy)}
               renderRow={(row, empty, index) => (
                 <ListTagRow tag={row} handlePress={this.handleRemoveTag} {...row} />
               )}
@@ -123,4 +140,5 @@ class PostTags extends React.Component {
 
 export default connect(state => ({
   tags: state.ctk.tags,
+  categories: categoriesSelector(state),
 }))(PostTags)

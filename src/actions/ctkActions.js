@@ -18,3 +18,8 @@ export const setPostTags = payload => ({
   type: "SET_POST_TAGS",
   payload,
 })
+
+export const setPostCategory = payload => ({
+  type: "SET_POST_CATEGORIES",
+  payload,
+})
