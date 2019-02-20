@@ -4,7 +4,6 @@ import { API_ENDPOINTS } from "../constants/constants"
 import { setCtkPosts } from "../actions/ctkActions"
 
 export const fetchCTKPosts = () => dispatch => {
-  console.log("============ fetchCTKPosts")
   axios.get(API_ENDPOINTS.CTK_POSTS).then(resp => {
     dispatch(setCtkPosts(resp.data))
   })

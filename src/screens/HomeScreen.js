@@ -11,10 +11,12 @@ import { CTK_STATES, TAXONOMY_TYPE } from "../reducers/ctkConstants"
 import PostList from "./CTK/PostList"
 import PostDetails from "../components/PostDetails"
 import PostTags from "../components/PostTags"
+import PostImages from "../components/PostImages"
+import Summary from "../components/Summary"
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: <TopBar />,
+    headerTitle: <TopBar />,
   }
 
   constructor(props) {
@@ -40,16 +42,16 @@ class HomeScreen extends React.Component {
 
   shouldRenderSinglePost = () => this.props.state === CTK_STATES.POST_SELECTED && this.props.post
 
-  shouldRenderTags = () => this.props.state === CTK_STATES.TAGS
+  shouldRenderCategory = () => this.props.state === CTK_STATES.CATEGORY
 
-  shouldRenderFeaturedImage = () => this.props.state === CTK_STATES.FEATURED
+  shouldRenderTags = () => this.props.state === CTK_STATES.TAGS
 
   shouldRenderImage = () => this.props.state === CTK_STATES.IMAGES
 
-  shouldRenderCategory = () => this.props.state === CTK_STATES.CATEGORY
+  shouldShowSummary = () => this.props.state === CTK_STATES.SUMMARY
 
   render() {
-    const { post } = this.props
+    const { post, dispatch } = this.props
     return (
       <View style={styles.container}>
         {this.shouldRenderPostList() && (
@@ -62,8 +64,8 @@ class HomeScreen extends React.Component {
           <PostTags type={TAXONOMY_TYPE.CATEGORY} title={post.title} />
         )}
         {this.shouldRenderTags() && <PostTags type={TAXONOMY_TYPE.TAG} title={post.title} />}
-        {this.shouldRenderFeaturedImage() && <PostTags title={post.title} />}
-        {this.shouldRenderImage() && <PostTags title={post.title} />}
+        {this.shouldRenderImage() && <PostImages title={post.title} />}
+        {this.shouldShowSummary() && <Summary />}
       </View>
     )
   }

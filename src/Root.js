@@ -18,7 +18,6 @@ class Root extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props
-    console.log("componentDidMount")
     dispatch(registerForPushNotificationsAsync())
     dispatch(fetchCTKPosts())
 

@@ -8,13 +8,11 @@ import fp from "lodash/fp"
 import { Dimensions, StyleSheet, View, ScrollView, ListView, TextInput, Text } from "react-native"
 import { MonoText } from "./StyledText"
 import Heading from "./common/Heading"
-import NextButton from "./NextButton"
-import PostListRow from "./PostListRow"
 import { API_ENDPOINTS } from "../constants/constants"
 import ListTagRow from "./ListTagRow"
 import { setMainCategory, setPostCategory, setPostTags } from "../actions/ctkActions"
 import { TAXONOMY_TYPE } from "../reducers/ctkConstants"
-import { categoriesSelector, mainCategorySelector } from "../ctkSelectors"
+import { categoriesSelector, mainCategorySelector } from "../selectors/ctkSelectors"
 
 const { width } = Dimensions.get("window")
 
@@ -77,7 +75,6 @@ class PostTags extends React.Component {
       this.props.dispatch(setPostTags(newTags))
     } else if (this.props.type === TAXONOMY_TYPE.CATEGORY) {
       const newTags = [...this.props.categories, taxonomy]
-      console.log(newTags)
       this.props.dispatch(setPostCategory(newTags))
     }
   }
@@ -154,7 +151,6 @@ class PostTags extends React.Component {
             />
           )}
         </ScrollView>
-        <NextButton handlePressNext={() => alert("not ready yet")} />
       </View>
     )
   }

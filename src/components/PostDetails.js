@@ -1,6 +1,6 @@
 // @flow
 import React from "react"
-import { Dimensions } from "react-native"
+import { Dimensions, Platform } from "react-native"
 
 import { StyleSheet, View, WebView } from "react-native"
 import NextButton from "./NextButton"
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const additionalStyles = `<style>* {font-size: 42px;}</style>`
+const additionalStyles = `<style>* {font-size: ${Platform.OS === "ios" ? "42px" : "14px"};}</style>`
 
 const PostDetails = ({ title, text, handleSelectTags }) => (
   <View style={styles.container}>

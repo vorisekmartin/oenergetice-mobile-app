@@ -9,6 +9,8 @@ const DEFAULT_STATE = {
   tags: [],
   categories: [],
   mainCategory: null,
+  images: [],
+  mainImage: null,
 }
 
 export const ctkReducer = (state = DEFAULT_STATE, action) => {
@@ -25,6 +27,10 @@ export const ctkReducer = (state = DEFAULT_STATE, action) => {
       return fp.set("categories", action.payload)(state)
     case "SET_MAIN_CATEGORY":
       return fp.set("mainCategory", action.payload)(state)
+    case "SET_POST_IMAGES":
+      return fp.set("images", action.payload)(state)
+    case "SET_MAIN_IMAGE":
+      return fp.set("mainImage", action.payload)(state)
     default:
       return state
   }

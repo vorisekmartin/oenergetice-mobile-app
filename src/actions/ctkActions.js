@@ -28,3 +28,13 @@ export const setMainCategory = payload => ({
   type: "SET_MAIN_CATEGORY",
   payload,
 })
+
+export const setPostImages = payload => ({
+  type: "SET_POST_IMAGES",
+  payload,
+})
+
+export const setMainImage = payload => ({
+  type: "SET_MAIN_IMAGE",
+  payload,
+})

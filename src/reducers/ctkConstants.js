@@ -16,12 +16,12 @@ export const CTK_STATES = {
     name: "tags",
     index: 3,
   },
-  FEATURED: {
-    name: "featured",
-    index: 4,
-  },
   IMAGES: {
     name: "images",
+    index: 4,
+  },
+  SUMMARY: {
+    name: "summary",
     index: 5,
   },
 }
