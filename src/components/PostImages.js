@@ -16,6 +16,7 @@ import { setPostImages, setMainImage } from "../actions/ctkActions"
 
 import {
   categoriesSelector,
+  currentNumberOfImagesSelector,
   imagesSelector,
   mainCategorySelector,
   mainImageSelector,
@@ -54,6 +55,7 @@ class PostTags extends React.Component {
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       text: "",
       suggestedImages: [],
+      shouldCall: true,
     }
   }
 
@@ -61,6 +63,15 @@ class PostTags extends React.Component {
     const params = { query: text }
     const url = `${API_ENDPOINTS.POST_IMAGES}?${queryString.stringify(params)}`
     const that = this
+    console.log("call fetchImages")
+    if (this.state.shouldCall) {
+      this.setState({ shouldCall: false })
+    } else {
+      setTimeout(() => {
+        this.setState({ shouldCall: true })
+      }, 2000)
+    }
+    console.log("call fetchImages - pass")
     axios.get(url).then(resp => {
       that.setState({ suggestedImages: resp.data })
     })
@@ -68,7 +79,7 @@ class PostTags extends React.Component {
 
   handleChangeInputText = text => {
     this.setState({ text })
-    if (text.length > 1) {
+    if (text.length > 2) {
       this.fetchImages(text)
     }
   }
@@ -89,13 +100,13 @@ class PostTags extends React.Component {
   }
 
   render() {
-    const { title, mainImage, images } = this.props
+    const { title, mainImage, images, imagesCount } = this.props
 
     const filteredImages = fp.difference(this.state.suggestedImages)(images)
     return (
       <View style={styles.container}>
         <Heading title={title} />
-        <Text>Obrázky</Text>
+        <Text>{`Obrázky - ${imagesCount + 1}`}</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={text => this.handleChangeInputText(text)}
@@ -141,4 +152,5 @@ class PostTags extends React.Component {
 export default connect(state => ({
   images: imagesSelector(state),
   mainImage: mainImageSelector(state),
+  imagesCount: currentNumberOfImagesSelector(state),
 }))(PostTags)

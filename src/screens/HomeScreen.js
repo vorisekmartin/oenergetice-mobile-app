@@ -1,12 +1,13 @@
 // @flow
 import React from "react"
-import { Text, ListView, View } from "react-native"
+import fp from "lodash/fp"
+import { Text, ListView, View, Alert, KeyboardAvoidingView } from "react-native"
 import { connect } from "react-redux"
 
 import TopBar from "../components/TopBar"
 
 import { styles } from "../styles/HomeScreen.styles"
-import { setCtkState, setPost } from "../actions/ctkActions"
+import { setCtkState, setPost, setPostIndex } from "../actions/ctkActions"
 import { CTK_STATES, TAXONOMY_TYPE } from "../reducers/ctkConstants"
 import PostList from "./CTK/PostList"
 import PostDetails from "../components/PostDetails"
@@ -26,10 +27,55 @@ class HomeScreen extends React.Component {
     }
   }
 
-  handleSelectPost = index => {
-    const { dispatch, posts } = this.props
-    dispatch(setPost(posts[index]))
+  selectPost = (index, fresh = true) => {
+    const { dispatch, posts, post } = this.props
+    const newPost = fresh ? posts[index] : post
+    dispatch(setPost(newPost))
+    dispatch(setPostIndex(index))
     dispatch(setCtkState(CTK_STATES.POST_SELECTED))
+  }
+
+  handleSelectPost = index => {
+    const { posts, post } = this.props
+    if (fp.isEmpty(post) || fp.includes(post)(posts)) {
+      this.selectPost(index)
+    } else if (this.props.index && this.props.index !== index) {
+      this.confirmSelectDifferent(index)
+    } else {
+      this.showAlert(index)
+    }
+  }
+
+  confirmSelectDifferent = index => {
+    Alert.alert(
+      "Zvolen jiný příspěvek",
+      "Zahodit změny původního?",
+      [
+        {
+          text: "Vybrat znovu",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "Zahodit změny", onPress: () => this.selectPost(index) },
+      ],
+      { cancelable: true },
+    )
+  }
+
+  showAlert = index => {
+    Alert.alert(
+      "Změny",
+      "Zahodit změny",
+      [
+        {
+          text: "Ponechat změny",
+          onPress: () => this.selectPost(index, false),
+          style: "cancel",
+        },
+        { text: "Zahodit změny", onPress: () => this.selectPost(index) },
+      ],
+      { cancelable: true },
+    )
   }
 
   handleSelectTags = () => {
@@ -52,13 +98,14 @@ class HomeScreen extends React.Component {
 
   render() {
     const { post, dispatch } = this.props
+
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behvior="padding">
         {this.shouldRenderPostList() && (
           <PostList ds={this.state.ds} handleSelectPost={this.handleSelectPost} />
         )}
         {this.shouldRenderSinglePost() && (
-          <PostDetails {...post} handleSelectTags={this.handleSelectTags} />
+          <PostDetails {...post} dispatch={dispatch} handleSelectTags={this.handleSelectTags} />
         )}
         {this.shouldRenderCategory() && (
           <PostTags type={TAXONOMY_TYPE.CATEGORY} title={post.title} />
@@ -66,7 +113,7 @@ class HomeScreen extends React.Component {
         {this.shouldRenderTags() && <PostTags type={TAXONOMY_TYPE.TAG} title={post.title} />}
         {this.shouldRenderImage() && <PostImages title={post.title} />}
         {this.shouldShowSummary() && <Summary />}
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -75,4 +122,5 @@ export default connect(state => ({
   post: state.ctk.post,
   posts: state.ctk.posts,
   state: state.ctk.state,
+  index: state.ctk.index,
 }))(HomeScreen)

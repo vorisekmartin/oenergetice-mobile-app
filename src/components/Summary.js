@@ -35,6 +35,13 @@ const styles = StyleSheet.create({
 })
 
 class Summary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      submitted: false,
+    }
+  }
+
   handleSubmit = () => {
     const url = API_ENDPOINTS.SUBMIT_POST
     const params = {
@@ -51,18 +58,38 @@ class Summary extends React.Component {
     }
     console.log("SUBMIT PARAMS")
     console.log(params)
+    const that = this
     axios
       .post(url, qs.stringify(params))
-      .then(resp => {})
+      .then(resp => {
+        console.log(resp.data)
+        that.setState({ submitted: true })
+      })
       .catch()
   }
 
   render() {
+    const { tags, categories, mainCategory } = this.props
+    console.log("this.props.tags")
+    console.log(this.props.tags)
+    console.log("this.props.imageIds")
+    console.log(this.props.imageIds)
+    console.log("this.props.categories")
+    console.log(this.props.categories)
+    console.log("this.props.mainCategory")
+    console.log(this.props.mainCategory)
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-          <MonoText style={styles.title}>Publikovat</MonoText>
-        </TouchableOpacity>
+        <MonoText style={{ textAlign: "left" }}>{`Tagy: ${tags.join(", ")}`}</MonoText>
+        <MonoText style={{ textAlign: "left" }}>{`Kategorie: ${categories.join(", ")}`}</MonoText>
+        <MonoText style={{ textAlign: "left" }}>{`Hlavní kategorie: ${mainCategory}`}</MonoText>
+        {!this.state.submitted ? (
+          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+            <MonoText style={styles.title}>Publikovat</MonoText>
+          </TouchableOpacity>
+        ) : (
+          <MonoText style={styles.title}>Hotovo</MonoText>
+        )}
       </View>
     )
   }

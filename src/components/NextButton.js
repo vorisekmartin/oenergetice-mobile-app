@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
   },
 })
 
-const NextButton = ({ handlePressNext, style }) => (
+const NextButton = ({ handlePressNext, style, title = "Next" }) => (
   <TouchableOpacity style={{ ...styles.nextButton, ...style }} onPress={handlePressNext}>
-    <MonoText style={styles.nextButtonText}>Next</MonoText>
+    <MonoText style={styles.nextButtonText}>{title}</MonoText>
   </TouchableOpacity>
 )
 

@@ -14,6 +14,21 @@ export const setCtkState = payload => ({
   payload,
 })
 
+export const setPostTitle = payload => ({
+  type: "SET_POST_TITLE",
+  payload,
+})
+
+export const setPostContent = payload => ({
+  type: "SET_POST_CONTENT",
+  payload,
+})
+
+export const setPostIndex = payload => ({
+  type: "SET_POST_INDEX",
+  payload,
+})
+
 export const setPostTags = payload => ({
   type: "SET_POST_TAGS",
   payload,
