@@ -12,15 +12,9 @@ export const mainImageSelector = state => state.ctk.mainImage
 export const imagesSelector = state => state.ctk.images
 export const mainCategoryNameSelector = state => fp.get("ctk.mainCategory.name")(state)
 
-export const tagsNameSelector = createSelector(
-  tagsSelector,
-  fp.map(fp.get("name")),
-)
+export const tagsNameSelector = createSelector(tagsSelector, fp.map(fp.get("name")))
 export const mainImageIdSelector = state => fp.get("ctk.mainImage.id")(state)
-export const categoryNamesSelector = createSelector(
-  categoriesSelector,
-  fp.map(fp.get("name")),
-)
+export const categoryNamesSelector = createSelector(categoriesSelector, fp.map(fp.get("name")))
 
 export const imageIdsSelector = createSelector(
   imagesSelector,
@@ -32,32 +26,26 @@ export const imageIdsSelector = createSelector(
     )(images),
 )
 
-export const prevStateSelector = createSelector(
-  ctkStateSelector,
-  state => {
-    const prevIndex = fp.get("index")(state) - 1 < 0 ? 0 : fp.get("index")(state) - 1
-    const prevState = fp.compose(
-      fp.head,
-      fp.filter(item => item.index === prevIndex),
-    )(CTK_STATES)
+export const prevStateSelector = createSelector(ctkStateSelector, state => {
+  const prevIndex = fp.get("index")(state) - 1 < 0 ? 0 : fp.get("index")(state) - 1
+  const prevState = fp.compose(
+    fp.head,
+    fp.filter(item => item.index === prevIndex),
+  )(CTK_STATES)
 
-    return prevState
-  },
-)
+  return prevState
+})
 
-export const currentNumberOfImagesSelector = createSelector(
-  ctkPostSelector,
-  post => {
-    if (!post || fp.isEmpty(post)) {
-      return 0
-    }
-    const pattern = /\[image\]/g
-    const re = new RegExp(pattern, "g")
-    const occurence = (post.text.length - post.text.replace(re, "").length) / "[image]".length
+export const currentNumberOfImagesSelector = createSelector(ctkPostSelector, post => {
+  if (!post || fp.isEmpty(post)) {
+    return 0
+  }
+  const pattern = /\[image\]/g
+  const re = new RegExp(pattern, "g")
+  const occurence = (post.text.length - post.text.replace(re, "").length) / "[image]".length
 
-    return occurence
-  },
-)
+  return occurence
+})
 
 export const nextStateSelector = createSelector(
   ctkStateSelector,

@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.oenergetice.app",
-      "versionCode": 2
+      "versionCode": 3
     },
     "description": ""
   }
