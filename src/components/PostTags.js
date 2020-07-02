@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import queryString from "query-string"
 import fp from "lodash/fp"
 
-import { Dimensions, StyleSheet, View, ScrollView, ListView, TextInput, Text } from "react-native"
+import { Dimensions, StyleSheet, View, ScrollView, FlatList, TextInput, Text } from "react-native"
 import { MonoText } from "./StyledText"
 import Heading from "./common/Heading"
 import { API_ENDPOINTS } from "../constants/constants"
@@ -44,7 +44,6 @@ class PostTags extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       text: "",
       suggestedTags: [],
     }
@@ -122,30 +121,30 @@ class PostTags extends React.Component {
         <ScrollView>
           <MonoText>Vybráno:</MonoText>
           {selectedTaxonomy.length > 0 && (
-            <ListView
-              dataSource={this.state.ds.cloneWithRows(selectedTaxonomy)}
-              renderRow={(row, empty, index) => (
+            <FlatList
+              data={selectedTaxonomy}
+              renderItem={({ item }) => (
                 <ListTagRow
-                  tag={row}
-                  mainCategory={fp.isEqual(mainCategory)(row)}
+                  tag={item}
+                  mainCategory={fp.isEqual(mainCategory)(item)}
                   handlePress={this.handleRemoveTag}
                   handleLongPress={this.handleLongPress}
-                  {...row}
+                  {...item}
                 />
               )}
             />
           )}
           <MonoText>Návrhy:</MonoText>
           {filteredTags.length > 0 && (
-            <ListView
-              dataSource={this.state.ds.cloneWithRows(filteredTags)}
-              renderRow={(row, empty, index) => (
+            <FlatList
+              data={filteredTags}
+              renderItem={({ item }) => (
                 <ListTagRow
                   handlePress={this.handleSelectTag}
                   highlight={this.state.text}
                   suggestion
-                  {...row}
-                  tag={row}
+                  {...item}
+                  tag={item}
                 />
               )}
             />

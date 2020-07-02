@@ -1,5 +1,6 @@
 // @flow
-import { Permissions, Notifications } from "expo"
+import { Notifications } from "expo"
+import * as Permissions from "expo-permissions"
 import { setExpoToken } from "../../actions/generalActions"
 
 export const registerForPushNotificationsAsync = () => async dispatch => {

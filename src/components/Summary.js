@@ -39,6 +39,8 @@ class Summary extends React.Component {
     super(props)
     this.state = {
       submitted: false,
+      errMsg: "",
+      error: false,
     }
   }
 
@@ -65,11 +67,13 @@ class Summary extends React.Component {
         console.log(resp.data)
         that.setState({ submitted: true })
       })
-      .catch()
+      .catch(err => {
+        that.setState({ error: true, errMsg: err })
+      })
   }
 
   render() {
-    const { tags, categories, mainCategory } = this.props
+    const { tags, categories, mainCategory, token } = this.props
     console.log("this.props.tags")
     console.log(this.props.tags)
     console.log("this.props.imageIds")
@@ -83,6 +87,8 @@ class Summary extends React.Component {
         <MonoText style={{ textAlign: "left" }}>{`Tagy: ${tags.join(", ")}`}</MonoText>
         <MonoText style={{ textAlign: "left" }}>{`Kategorie: ${categories.join(", ")}`}</MonoText>
         <MonoText style={{ textAlign: "left" }}>{`Hlavní kategorie: ${mainCategory}`}</MonoText>
+        <MonoText style={{ textAlign: "left" }}>{`Token: ${token}`}</MonoText>
+
         {!this.state.submitted ? (
           <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
             <MonoText style={styles.title}>Publikovat</MonoText>
@@ -90,6 +96,7 @@ class Summary extends React.Component {
         ) : (
           <MonoText style={styles.title}>Hotovo</MonoText>
         )}
+        {this.state.error && <MonoText>{JSON.stringify(this.state.errMsg)}</MonoText>}
       </View>
     )
   }

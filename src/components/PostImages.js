@@ -5,20 +5,17 @@ import { connect } from "react-redux"
 import queryString from "query-string"
 import fp from "lodash/fp"
 
-import { Dimensions, StyleSheet, View, ScrollView, ListView, TextInput, Text } from "react-native"
+import { Dimensions, StyleSheet, View, ScrollView, FlatList, TextInput, Text } from "react-native"
 import { MonoText } from "./StyledText"
 import Heading from "./common/Heading"
-import NextButton from "./NextButton"
 
 import { API_ENDPOINTS } from "../constants/constants"
 import ListImageRow from "./ListImageRow"
 import { setPostImages, setMainImage } from "../actions/ctkActions"
 
 import {
-  categoriesSelector,
   currentNumberOfImagesSelector,
   imagesSelector,
-  mainCategorySelector,
   mainImageSelector,
 } from "../selectors/ctkSelectors"
 
@@ -52,7 +49,6 @@ class PostTags extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       text: "",
       suggestedImages: [],
       shouldCall: true,
@@ -115,30 +111,30 @@ class PostTags extends React.Component {
         <ScrollView>
           <MonoText>Vybráno:</MonoText>
           {images.length > 0 && (
-            <ListView
-              dataSource={this.state.ds.cloneWithRows(images)}
-              renderRow={(row, empty, index) => (
+            <FlatList
+              data={images}
+              renderItem={({ item }) => (
                 <ListImageRow
-                  image={row}
-                  mainImage={fp.isEqual(mainImage)(row)}
+                  image={item}
+                  mainImage={fp.isEqual(mainImage)(item)}
                   handlePress={this.handleRemoveImage}
                   handleLongPress={this.handleLongPress}
-                  {...row}
+                  {...item}
                 />
               )}
             />
           )}
           <MonoText>Návrhy:</MonoText>
           {filteredImages.length > 0 && (
-            <ListView
-              dataSource={this.state.ds.cloneWithRows(filteredImages)}
-              renderRow={(row, empty, index) => (
+            <FlatList
+              data={filteredImages}
+              renderItem={({ item }) => (
                 <ListImageRow
                   handlePress={this.handleSelectImage}
                   highlight={this.state.text}
                   suggestion
-                  {...row}
-                  image={row}
+                  {...item}
+                  image={item}
                 />
               )}
             />

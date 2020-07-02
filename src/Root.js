@@ -1,14 +1,17 @@
 // @flow
 import React from "react"
-import { Platform, StatusBar, StyleSheet, View, Text } from "react-native"
-import { AppLoading, Asset, Font, Icon, Notifications } from "expo"
+import { Platform, StatusBar, View } from "react-native"
+import { AppLoading, Notifications } from "expo"
+import * as Font from "expo-font"
+import * as Icon from "@expo/vector-icons"
+
+import { Asset } from "expo-asset"
 import { connect } from "react-redux"
 
 import AppNavigator from "./navigation/AppNavigator"
 import { registerForPushNotificationsAsync } from "./scripts/notifications/registerForPushNotification"
 import { fetchCTKPosts } from "./scripts/fetchCTKPosts"
 import { styles } from "./styles/App.styles"
-import TopBar from "./components/TopBar"
 
 class Root extends React.Component {
   state = {

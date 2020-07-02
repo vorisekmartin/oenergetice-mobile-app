@@ -8,9 +8,13 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   SafeAreaView,
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
 } from "react-native"
 
-import { StyleSheet, View, WebView, TextInput, Text } from "react-native"
+import { WebView } from "react-native-webview"
 import Icon from "react-native-vector-icons/FontAwesome"
 import Heading from "./common/Heading"
 import NextButton from "./NextButton"

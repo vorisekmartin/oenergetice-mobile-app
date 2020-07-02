@@ -1,7 +1,7 @@
 // @flow
 import React from "react"
 import fp from "lodash/fp"
-import { Text, ListView, View, Alert, KeyboardAvoidingView } from "react-native"
+import { Alert, KeyboardAvoidingView } from "react-native"
 import { connect } from "react-redux"
 
 import TopBar from "../components/TopBar"
@@ -18,13 +18,6 @@ import Summary from "../components/Summary"
 class HomeScreen extends React.Component {
   static navigationOptions = {
     headerTitle: <TopBar />,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
-    }
   }
 
   selectPost = (index, fresh = true) => {
@@ -101,9 +94,7 @@ class HomeScreen extends React.Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} behvior="padding">
-        {this.shouldRenderPostList() && (
-          <PostList ds={this.state.ds} handleSelectPost={this.handleSelectPost} />
-        )}
+        {this.shouldRenderPostList() && <PostList handleSelectPost={this.handleSelectPost} />}
         {this.shouldRenderSinglePost() && (
           <PostDetails {...post} dispatch={dispatch} handleSelectTags={this.handleSelectTags} />
         )}
