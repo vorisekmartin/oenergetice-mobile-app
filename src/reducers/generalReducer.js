@@ -3,7 +3,7 @@ import fp from "lodash/fp"
 
 const DEFAULT_STATE = {
   user: "no user",
-  token: "no token",
+  token: "no token - cannot publish without token",
 }
 
 export const generalReducer = (state = DEFAULT_STATE, action) => {

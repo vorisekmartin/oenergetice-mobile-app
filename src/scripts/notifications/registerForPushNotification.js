@@ -1,10 +1,16 @@
 // @flow
-import { Notifications } from "expo"
+import Constants from "expo-constants"
+import * as Notifications from "expo-notifications"
 import * as Permissions from "expo-permissions"
 import { setExpoToken } from "../../actions/generalActions"
 
 export const registerForPushNotificationsAsync = () => async dispatch => {
   const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+  let experienceId
+  if (!Constants.manifest) {
+    // Absence of the manifest means we're in bare workflow
+    experienceId = "@username/example"
+  }
 
   let finalStatus = existingStatus
   console.log(`existingStatus: ${existingStatus}`)
@@ -23,8 +29,9 @@ export const registerForPushNotificationsAsync = () => async dispatch => {
   }
 
   // Get the token that uniquely identifies this device
-  const token = await Notifications.getExpoPushTokenAsync()
+  const { data: token } = await Notifications.getExpoPushTokenAsync()
   dispatch(setExpoToken(token))
+  console.log(`token:${token}`)
 
   const PUSH_ENDPOINT = `https://app.oenergetice.cz/oenergetice/users/${token}`
 
