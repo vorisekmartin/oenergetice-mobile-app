@@ -2,34 +2,37 @@
 import Constants from "expo-constants"
 import * as Notifications from "expo-notifications"
 import * as Permissions from "expo-permissions"
+import { Platform } from "react-native"
 import { setExpoToken } from "../../actions/generalActions"
 
 export const registerForPushNotificationsAsync = () => async dispatch => {
-  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
-  let experienceId
-  if (!Constants.manifest) {
-    // Absence of the manifest means we're in bare workflow
-    experienceId = "@username/example"
+  let token
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+    let finalStatus = existingStatus
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+      finalStatus = status
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!")
+      return
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data
+    console.log(token)
+  } else {
+    alert("Must use physical device for Push Notifications")
   }
 
-  let finalStatus = existingStatus
-  console.log(`existingStatus: ${existingStatus}`)
-  // only ask if permissions have not already been determined, because
-  // iOS won't necessarily prompt the user a second time.
-  if (existingStatus !== "granted") {
-    // Android remote notification permissions are granted during the app
-    // install, so this will only ask on iOS
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-    finalStatus = status
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    })
   }
 
-  // Stop here if the user did not grant permissions
-  if (finalStatus !== "granted") {
-    return
-  }
-
-  // Get the token that uniquely identifies this device
-  const { data: token } = await Notifications.getExpoPushTokenAsync()
   dispatch(setExpoToken(token))
   console.log(`token:${token}`)
 

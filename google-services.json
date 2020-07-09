@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "607801566194",
+    "firebase_url": "https://oenergetice-native-app.firebaseio.com",
+    "project_id": "oenergetice-native-app",
+    "storage_bucket": "oenergetice-native-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607801566194:android:da71fb61de45fd754f416b",
+        "android_client_info": {
+          "package_name": "com.oenergetice.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607801566194-7vor9g3ep1jrmvu2efjnr0tvjp99qoom.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkVjaS9_VBIrTrIDPib3Lvx8ei-TxLWuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607801566194-7vor9g3ep1jrmvu2efjnr0tvjp99qoom.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1",
+  "android": {
+    "googleServicesFile": "./google-services.json"
+  }
+}
