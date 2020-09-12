@@ -21,6 +21,8 @@
       "bundleIdentifier": "com.oenergetice.app"
     },
     "android": {
+      "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json",
       "package": "com.oenergetice.app",
       "versionCode": 4
     },
