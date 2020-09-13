@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   saveClose: {},
 })
 
-const additionalStyles = `<style>* {font-size: ${Platform.OS === "ios" ? "42px" : "14px"};}</style>`
+const additionalStyles = `<style>* {font-size: ${Platform.OS === "ios" ? "42px" : "42px"};}</style>`
 
 class PostDetails extends React.Component {
   constructor(props) {

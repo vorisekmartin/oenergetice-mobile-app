@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "572912369328",
-    "firebase_url": "https://oenergetice-fix.firebaseio.com",
-    "project_id": "oenergetice-fix",
-    "storage_bucket": "oenergetice-fix.appspot.com"
+    "project_number": "81839265827",
+    "firebase_url": "https://ctknotifications.firebaseio.com",
+    "project_id": "ctknotifications",
+    "storage_bucket": "ctknotifications.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:572912369328:android:f10cb100fd4422a7770575",
+        "mobilesdk_app_id": "1:81839265827:android:45d0ef29a2ac9b2df8b996",
         "android_client_info": {
           "package_name": "com.oenergetice.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "572912369328-sr2qo5o440sv5btn3pqcfq40bt8enm3r.apps.googleusercontent.com",
+          "client_id": "81839265827-3u272u0fq7ccs0437se5a060dofd2lo6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTmI6GQzbKDbCoDkcRM6LKAui666z6wwo"
+          "current_key": "AIzaSyCkx5_kDxQ8wIAheiipqZSRTRkPUbI87z4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "572912369328-sr2qo5o440sv5btn3pqcfq40bt8enm3r.apps.googleusercontent.com",
+              "client_id": "81839265827-3u272u0fq7ccs0437se5a060dofd2lo6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
