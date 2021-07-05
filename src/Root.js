@@ -2,7 +2,6 @@
 import React from "react"
 import { Platform, StatusBar, View } from "react-native"
 import AppLoading from "expo-app-loading"
-import * as Notifications from "expo-notifications"
 
 import * as Font from "expo-font"
 import * as Icon from "@expo/vector-icons"
@@ -25,12 +24,6 @@ class Root extends React.Component {
     const { dispatch } = this.props
     dispatch(registerForPushNotificationsAsync())
     dispatch(fetchCTKPosts())
-
-    this._notificationSubscription = Notifications.addListener(this._handleNotification)
-  }
-
-  _handleNotification = notification => {
-    this.setState({ notification }) // eslint-disable-line
   }
 
   render() {
