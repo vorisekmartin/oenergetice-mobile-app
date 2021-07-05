@@ -1,7 +1,9 @@
 // @flow
 import React from "react"
 import { Platform, StatusBar, View } from "react-native"
-import { AppLoading, Notifications } from "expo"
+import AppLoading from "expo-app-loading"
+import * as Notifications from "expo-notifications"
+
 import * as Font from "expo-font"
 import * as Icon from "@expo/vector-icons"
 
